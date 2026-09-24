@@ -4,6 +4,7 @@ on:
     push:
         branches:
             - main
+            - feature/*
 
 jobs:
     hello:
@@ -17,3 +18,17 @@ jobs:
               run: uname -a
             - name: Bye Print message
               run: echo "Bye from GitHub Actions!"
+
+    secrets-demo:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Check secret
+              env:
+                  DEMO_SECRET: ${{ secrets.DEMO_SECRET }}
+              run: |
+                  if [ -n "$DEMO_SECRET" ]; then
+                    echo "Secret is available."
+                  else
+                    echo "Secret is not configured."
+                    exit 1
+                  fi
